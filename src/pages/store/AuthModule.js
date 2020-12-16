@@ -9,7 +9,8 @@ const AuthModule = {
                     uid: data.user.uid,
                     name: payload.name,
                     email: payload.email,
-                    emailvarified: false
+                    emailvarified: false,
+                    photo_url: payload.photoURL
                 });
                 let newuser = data.user;
                 newuser.updateProfile({

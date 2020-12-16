@@ -66,12 +66,15 @@ export default {
       name: null,
       email: null,
       password: null,
-    }
+    };
   },
   computed: {
     image_url() {
       return this.$store.getters.image_url;
-    }
+    },
+    files() {
+      return this.$store.getters.files;
+    },
   },
 
   methods: {
@@ -80,7 +83,7 @@ export default {
     },
     onFilePicked() {
       //read the image file
-      this.$store.dispatch('readFile')
+      this.$store.dispatch("readFile");
     },
     signUp() {
       const self = this;
@@ -89,11 +92,18 @@ export default {
       payload.email = this.email;
       payload.password = this.password;
       payload.photoURL = this.image_url;
-      //alert(JSON.stringify(payload))
-      this.$store.dispatch("signUp", payload);
+      if (self.files) {
+        self.$store.dispatch("uploadFile").then((url) => {
+          payload.photoURL = url;
+          self.$store.dispatch("signUp", payload);
+        });
+      } else {
+        this.$store.dispatch("signUp", payload);
+      }
+      
     },
-  },
-};
+  }
+}
 </script>
 <style scoped>
 .wrapper {
