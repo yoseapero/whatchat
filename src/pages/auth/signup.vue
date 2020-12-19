@@ -70,11 +70,21 @@ export default {
   },
   computed: {
     image_url() {
-      return this.$store.getters.image_url;
+      return this.$store.getters.image_url
     },
     files() {
-      return this.$store.getters.files;
+      return this.$store.getters.files
     },
+    signed_up() {
+      return this.$store.getters.signed_up
+    }
+  },
+  watch: {
+    signed_up(value) {
+      if (value == true) {
+        this.$f7router.navigate('/signin/');
+      }
+    }
   },
 
   methods: {
@@ -100,10 +110,12 @@ export default {
       } else {
         this.$store.dispatch("signUp", payload);
       }
-      
-    },
+          },
+  },
+  created() {
+    this.$store.commit('setSignedUp', false)
   }
-}
+};
 </script>
 <style scoped>
 .wrapper {
