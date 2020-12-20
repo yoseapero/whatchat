@@ -21,7 +21,7 @@
 
   <f7-block>
 
-  <f7-button fill round>Login</f7-button>
+  <f7-button fill round @click="signIn">Login</f7-button>
   <div style="text-align:center">
       
   <f7-link>Resend Confirmation Email</f7-link> <br>
@@ -41,6 +41,14 @@ export default {
             email:null,
             password:null
         }
+    },
+    methods:{
+      signIn(){
+       var payload = {}
+       payload.email = this.email,
+       payload.password = this.password
+       this.$store.dispatch('signIn',payload)
+      }
     }
 }
 </script>

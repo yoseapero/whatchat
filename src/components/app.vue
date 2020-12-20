@@ -27,7 +27,7 @@
 
 
   <!-- Views/Tabs container -->
-  <f7-views tabs class="safe-areas">
+  <f7-views tabs class="safe-areas" v-if="signed_in">
     <!-- Tabbar for switching views-tabs -->
     <f7-toolbar tabbar labels bottom>
       <f7-link tab-link="#view-home" tab-link-active icon-ios="f7:house_fill" icon-aurora="f7:house_fill" icon-md="material:home" text="Home"></f7-link>
@@ -45,6 +45,10 @@
     <f7-view id="view-settings" name="settings" tab url="/settings/"></f7-view>
 
   </f7-views>
+
+  <f7-view v-if="!signed_in" url="/signin/" :main="true">
+
+  </f7-view>
 
 
     <!-- Popup -->
@@ -166,6 +170,11 @@
         // Login screen data
         username: '',
         password: '',
+      }
+    },
+    computed:{
+      signed_in(){
+        return this.$store.getters.signed_in
       }
     },
     methods: {
