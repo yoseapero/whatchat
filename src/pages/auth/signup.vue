@@ -38,6 +38,7 @@
         type="password"
         placeholder="Your password"
         clear-button
+        
       >
       </f7-list-input>
     </f7-list>

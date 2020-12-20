@@ -102,6 +102,7 @@
 
   var firebaseConfig = {
     apiKey: "AIzaSyD3_ZP0QS-m7I50DYNvthR88ced6LrEbu8",
+    databaseURL: "https://whatchat-fcbb8-default-rtdb.firebaseio.com",
     authDomain: "whatchat-fcbb8.firebaseapp.com",
     projectId: "whatchat-fcbb8",
     storageBucket: "whatchat-fcbb8.appspot.com",
