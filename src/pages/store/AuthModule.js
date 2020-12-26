@@ -23,7 +23,19 @@ const AuthModule = {
             .signInWithEmailAndPassword(payload.email, payload.password)
             .then(user => {
                 //logined In
-                commit('setSignedIn', true)
+                firebase.auth().onAuthStateChanged(function(user) {
+                    if (user.emailVerified) {
+                      // User is signed in.
+                      commit('setSignedIn', true)
+                      commit('setAlertMessage', user.displayName)
+                    } else {
+                      // No user is signed in.
+                      commit('setSignedIn', false)
+                      commit('setAlertMessage', 'Pelase verify with your email')
+                    }
+                }
+                )
+            
             })
             .catch(function(error){
                 commit('setAlertMessage',error)
