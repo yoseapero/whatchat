@@ -8,7 +8,7 @@
         <f7-navbar title="Left Panel"></f7-navbar>
         <f7-list>
           <f7-list-item link="/signin/" view=".view-main" panel-close title="Sign In"></f7-list-item>
-          <f7-list-item link="/signup/" view=".view-main" panel-close title="Sign Up"></f7-list-item>
+          <f7-list-item @click="signOut" view=".view-main" panel-close title="Sign Out"></f7-list-item>
         </f7-list>
       </f7-page>
     </f7-view>
@@ -182,7 +182,13 @@
         this.$f7.dialog.alert('Username: ' + this.username + '<br>Password: ' + this.password, () => {
           this.$f7.loginScreen.close();
         });
-      }
+      
+    },
+    signOut(){
+      const app = this.$f7
+      this.$store.dispatch('signOut')
+      app.panel.close()
+    }
     },
     mounted() {
       this.$f7ready((f7) => {

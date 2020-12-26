@@ -61,6 +61,12 @@ const AuthModule = {
             });
         },
 
+        signOut({commit}){
+            firebase.auth().signOut().then(()=>{
+                commit('setSignedIn', false);
+            })
+        },
+
         sendVerification({
             commit
         }) {
