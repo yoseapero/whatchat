@@ -24,10 +24,10 @@
   <f7-button fill round @click="signIn">Login</f7-button>
   <div style="text-align:center">
       
-  <f7-link>Resend Confirmation Email</f7-link> <br>
+  <f7-link @click="resendEmail">Resend Confirmation Email <span v-if="time_left>0"></span></f7-link> <br>
   <f7-link href="/signup/"> Don't have an account? Sign Up</f7-link> <br>
   <f7-link>Forgot Password</f7-link>
-  
+  {{time_left}}
   </div>
   </f7-block>
   
@@ -35,14 +35,36 @@
 </template>
 
 <script>
+import {setInterval, clearInterval} from 'timers';
 export default {
     data(){
         return{
             email:null,
-            password:null
+            password:null,
+            time_left:-1
         }
     },
     methods:{
+      resendEmail(){
+        const self = this
+        
+        if(this.time_left<=0){
+          this.$store.dispatch('sendVerification')
+          self.countDown()
+        }
+        
+      },
+      countDown(){
+        const self = this
+        self.time_left = 20
+        var timer = setInterval(function(){
+          self.time_left -= 1
+          console.log('time_left', self.time_left)
+          if(self.time_left<= 0){
+            clearInterval(timer)
+          }
+        }, 1000)
+      },
       signIn(){
        var payload = {}
        payload.email = this.email,

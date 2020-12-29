@@ -7,7 +7,7 @@
       <f7-page>
         <f7-navbar title="Left Panel"></f7-navbar>
         <f7-list>
-          <f7-list-item link="/signin/" view=".view-main" panel-close title="Sign In"></f7-list-item>
+          <f7-list-item link="/signin/" view=".view-main" v-if="!signed_in" panel-close title="Sign In"></f7-list-item>
           <f7-list-item @click="signOut" view=".view-main" panel-close title="Sign Out"></f7-list-item>
         </f7-list>
       </f7-page>
