@@ -24,7 +24,7 @@
   <f7-button fill round @click="signIn">Login</f7-button>
   <div style="text-align:center">
       
-  <f7-link @click="resendEmail" :color="color(time_left)">Resend Confirmation Email <span v-if="time_left>0">&nbsp; {{time_left}}</span></f7-link> <br>
+  <f7-link v-if="show_resend_email" @click="resendEmail" :color="color(time_left)">Resend Confirmation Email <span v-if="time_left>0">&nbsp; {{time_left}}</span></f7-link> <br>
   <f7-link href="/signup/"> Don't have an account? Sign Up</f7-link> <br>
   <f7-link>Forgot Password</f7-link>
   </div>
@@ -42,6 +42,11 @@ export default {
             password:null,
             time_left:-1
         }
+    },
+    computed:{
+      show_resend_email(){
+        return this.$store.getters.show_resend_email
+      }
     },
     methods:{
       color(timeleft){

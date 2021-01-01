@@ -2,18 +2,23 @@ import firebase from 'firebase';
 const AuthModule = {
     state: {
         signed_in:false,
-        signed_up: false
+        signed_up: false,
+        show_resend_email : false
     },
     getters: {
         signed_in: state => state.signed_in,
-        signed_up: state => state.signed_up
+        signed_up: state => state.signed_up,
+        show_resend_email: state => state.show_resend_email
     },
     mutations: {
         setSignedIn(state, payload) {
-            state.signed_in = payload
+            state.signed_in = payload;
         },
         setSignedUp(state, payload) {
-            state.signed_up = payload
+            state.signed_up = payload;
+        },
+        setShowResendEmail(state, payload) {
+            state.show_resend_email = payload;
         }
     },
     actions: {
@@ -26,19 +31,21 @@ const AuthModule = {
                 firebase.auth().onAuthStateChanged(function(user) {
                     if (user.emailVerified) {
                       // User is signed in.
-                      commit('setSignedIn', true)
-                      commit('setAlertMessage', user.displayName)
+                      commit("setAlertMessage", `Welcome ${user.displayName}`);
+                      commit("setSignedIn", true);
+                      commit("setShowResendEmail", false)
                     } else {
                       // No user is signed in.
-                      commit('setSignedIn', false)
-                      commit('setAlertMessage', 'Pelase verify with your email')
+                      commit("setSignedIn", false);
+                      commit("setAlertMessage", "Pelase verify with your email");
+                      commit("setShowResendEmail", true)
                     }
                 }
                 )
             
             })
             .catch(function(error){
-                commit('setAlertMessage',error)
+                commit("setAlertMessage",error)
 
             });
         },
@@ -61,21 +68,21 @@ const AuthModule = {
                     })
                     .then(() => {
                         dispatch('sendVerification')
-                        commit('setSignedUp', true)
+                        commit("setSignedUp", true)
                         console.log('update profile')
                     }).catch(err => {
                         console.log(err.message)
-                        commit('setAlertMessage', err.message);
+                        commit("setAlertMessage", err.message);
                     })
             }).catch(err => {
                 console.log(err.message)
-                commit('setAlertMessage', err.message);
+                commit("setAlertMessage", err.message);
             });
         },
 
         signOut({commit}){
             firebase.auth().signOut().then(()=>{
-                commit('setSignedIn', false);
+                commit("setSignedIn", false);
             })
         },
 
@@ -88,7 +95,7 @@ const AuthModule = {
                 .sendEmailVerification()
                 .then(function() {
                     // Email sent.
-                    commit('setAlertMessage', `A verification email has been sent to ${user.email}`)
+                    commit("setAlertMessage", `A verification email has been sent to ${user.email}`)
                 })
                 .catch(function(error) {
                     // An error happened.

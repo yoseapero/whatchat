@@ -32,7 +32,7 @@ const FileModule = {
                     commit('setImageURL', imageUrl)
                 })
             } else {
-                commit('setAlertMessage', 'The Image size is greater than 200KB')
+                commit("setAlertMessage", 'The Image size is greater than 200KB')
                 return
             }
         },
