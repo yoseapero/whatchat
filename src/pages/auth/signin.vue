@@ -36,8 +36,10 @@
 <script>
 import {setInterval, clearInterval} from 'timers';
 import firebase from 'firebase';
-import {mixin} from '../../js/mixin';
+import {mixin} from "../../js/mixin";
 export default {
+
+  mixins: [mixin],
     data(){
         return{
             email:null,
