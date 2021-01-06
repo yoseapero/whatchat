@@ -5,7 +5,12 @@
   <f7-panel left cover theme-dark>
     <f7-view>
       <f7-page>
-        <f7-navbar title="Left Panel"></f7-navbar>
+        <div class="wrapper">
+        <img class="image--cover" :src="photo_url" alt="">
+        </div>
+        <f7-block style="text-align:center">{{display_name}}</f7-block>
+        
+        
         <f7-list>
           <f7-list-item link="/signin/" view=".view-main" v-if="!signed_in" panel-close title="Sign In"></f7-list-item>
           <f7-list-item @click="signOut" view=".view-main" panel-close title="Sign Out"></f7-list-item>
@@ -103,6 +108,7 @@
   import { Device }  from 'framework7/framework7-lite.esm.bundle.js';
   import cordovaApp from '../js/cordova-app.js';
   import routes from '../js/routes.js';
+import { mixin } from '../js/mixin.js';
 
   var firebaseConfig = {
     apiKey: "AIzaSyD3_ZP0QS-m7I50DYNvthR88ced6LrEbu8",
@@ -172,9 +178,16 @@
         password: '',
       }
     },
+    mixins: [mixin],
     computed:{
       signed_in(){
         return this.$store.getters.signed_in
+      },
+      photo_url(){
+        return this.$store.getters.photo_url
+      },
+      display_name(){
+        return this.$store.getters.display_name
       }
     },
     methods: {
@@ -201,3 +214,17 @@
     }
   }
 </script>
+
+<style scoped>
+.wrapper {
+  text-align: center;
+}
+.image--cover {
+  width: 100x;
+  height: 100px;
+  border-radius: 60%;
+  margin: 10px;
+  object-fit: cover;
+  object-position: center;
+}
+</style>

@@ -26,6 +26,8 @@ firebase.auth().onAuthStateChanged(function(user) {
     if (user && user.emailVerified) {
       // User is signed in.
       store.commit('setSignedIn', true)
+      store.commit('setPhotoURL', user.photoURL)
+      store.commit('setDisplayName', user.displayName)
     } else {
       // No user is signed in.
       store.commit('setSignedIn', false)
