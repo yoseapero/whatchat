@@ -11,7 +11,8 @@ const AuthModule = {
         signed_in: state => state.signed_in,
         signed_up: state => state.signed_up,
         photo_url: state => state.photo_url,
-        display_name: state => state.display_name
+        display_name: state => state.display_name,
+        show_resend_email: state=> state.show_resend_email
     },
     mutations: {
         setSignedIn(state, payload) {
@@ -47,7 +48,7 @@ const AuthModule = {
                       // No user is signed in.
                       commit("setSignedIn", false);
                       commit("setAlertMessage", "Pelase verify with your email");
-                      commit("setShowResendEmail", true)
+                      commit('setShowResendEmail', true)
                     }
                 }
                 )
