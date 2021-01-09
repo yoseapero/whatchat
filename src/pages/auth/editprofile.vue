@@ -18,7 +18,7 @@
     </f7-list>
 
     <f7-block>
-      <f7-button fill round >Update</f7-button>
+      <f7-button fill round @click="updateProfile">Update</f7-button>
       <input
         type="file"
         ref="file"
@@ -34,6 +34,7 @@
 //   setTimeout
 // } from 'timers';
 import { mixin } from "../../js/mixin";
+import firebase from 'firebase';
 export default {
   mixins: [mixin],
   data() {
@@ -75,7 +76,44 @@ export default {
       //read the image file
       this.$store.dispatch("readFile");
     },
+    updateProfile(){
+    const self = this;
     
+    if (self.files) {
+        var user = firebase.auth().currentUser;
+        if(this.photo_url!=null){
+            var storage = firebase.storage();
+            var httpReference = storage.refFromURL(this.photo_url);
+            httpReference.delete().then(()=> {
+
+            }).catch(err=>{
+                console.log(err)
+            })
+        }
+
+        self.$store.dispatch("uploadFile").then((url) => {
+            user.updateProfile({
+                displayName:self.display_name,
+                photoURL:url
+            }).then(function(){
+                self.$store.commit('setPhotoURL',user.photoURL);
+                self.$store.commit('setDisplayName',user.displayName);
+                firebase.database().ref('users/'+user.uid).update({
+                    photo_url:user.photoURL,
+                    name:user.display_name
+                })
+            }).catch(err=>{
+                console.log(err)
+            })
+        });
+    } else {
+        user.updateProfile({
+            displayName:self.display_name,
+        }).then(function(){
+            self.$store.commit('setDisplayName',user.displayName)
+        })
+    }
+    }
   },
   created() {
     if(this.photo_url!= null){
